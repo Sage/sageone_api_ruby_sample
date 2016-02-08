@@ -1,3 +1,9 @@
 tmp
 .DS_Store
 config/secrets.yml
+.bundle/
+log/*.log
+pkg/
+*.swp
+coverage/*
+db/*.sqlite
