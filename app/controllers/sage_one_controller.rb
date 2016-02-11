@@ -48,6 +48,7 @@ class SageOneController < ApplicationController
     end
   end
 
+  # use the refresh token to renew the access token
   def renew_token
     body_params = token_request_body
     body_params << ["refresh_token", current_user.refresh_token]
