@@ -1,0 +1,12 @@
+<% provide(:title, "Sage One Data") %>
+<h1>Sage One Data</h1>
+<%= link_to "Make another call", sageone_data_path, :class => "btn btn-primary" %>
+<% if @error %>
+<pre>
+<%= JSON.pretty_generate(@error) %>
+</pre>
+<% else %>
+<pre>
+<%= JSON.pretty_generate(@response) %>
+</pre>
+<% end %>
