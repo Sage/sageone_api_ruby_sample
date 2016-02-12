@@ -28,7 +28,7 @@ class SageOneController < ApplicationController
     signing_secret = sageone_config['sageone']['signing_secret']
     token = current_user.access_token
 
-    @signer = SageoneApiRequestSigner.new({
+    @signer = SageoneApiSigner.new({
       request_method: 'get',
       url: url,
       body_params: request_body_params,

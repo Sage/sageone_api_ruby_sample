@@ -169,7 +169,7 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     ruby-progressbar (1.7.5)
-    sageone_api_request_signer (1.1.2)
+    sageone_api_signer (1.3.0)
       activesupport
     sass (3.4.21)
     sass-rails (5.0.2)
@@ -230,7 +230,7 @@ DEPENDENCIES
   rails (~> 4.2)
   rails_12factor (= 0.0.2)
   rest-client
-  sageone_api_request_signer
+  sageone_api_signer
   sass-rails (= 5.0.2)
   sdoc (= 0.4.0)
   spring (= 1.1.3)
