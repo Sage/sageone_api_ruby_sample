@@ -3,43 +3,49 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <% if !authorized? %>
+  <% if !authorized? %>
     <h4>You haven't authorized yet.</h4>
-
     <%= link_to "Authorize now!", sageone_auth_path, class: "btn btn-primary" %>
-    <% else %>
+  <% else %>
     <%= form_for(current_user) do |f| %>
-
       <%= f.label :access_token %>
       <%= f.text_field :access_token, class: 'form-control', disabled: true %>
-
       <%= f.label :refresh_token %>
       <%= f.text_field :refresh_token, class: 'form-control', disabled: true %>
     <% end %>
-
     Access Token expires in <span id="getting-started"></span>
     <%= link_to "Renew access token", { :controller => "sage_one", :action => "renew_token"}, class: "renew-token-link" %>
-
-    <form action="get_data" method="get" class="endpoint_form">
-      <label for="endpoint">Endpoint (e.g. accounts/v1/contacts):</label>
-      <input id="endpoint" name="endpoint" type="text" value="" class="form-control" required="true">
-      <%= button_to "GET", { :controller => "sage_one", :action => "get_data"},
-                                     {:class => "btn btn-primary"} %>
-    </form>
-
-
-    <% end %>
+    <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#get" aria-controls="get" role="tab" data-toggle="tab">GET</a></li>
+      <li role="presentation"><a href="#post" aria-controls="post" role="tab" data-toggle="tab">POST</a></li>
+      <li role="presentation"><a href="#put" aria-controls="put" role="tab" data-toggle="tab">PUT</a></li>
+      <li role="presentation"><a href="#delete" aria-controls="delete" role="tab" data-toggle="tab">DELETE</a></li>
+    </ul>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade in active" id="get">
+        <%= render 'get' %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="post">
+        <%= render 'post' %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="put">
+        <%= render 'put' %>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="delete">
+        <%= render 'delete' %>
+      </div>
+    </div>
+  <% end %>
   </div>
 </div>
-
 <% if authorized? %>
-<script type="text/javascript">
-  var expires = "<%= current_user.token_issued + 60.minutes %>";
-  $("#getting-started")
-  .countdown(expires, function(event) {
-    $(this).text(
-      event.strftime('%H:%M:%S')
-    );
-  });
-</script>
+  <script type="text/javascript">
+    var expires = "<%= current_user.token_issued + 60.minutes %>";
+    $("#getting-started")
+    .countdown(expires, function(event) {
+      $(this).text(
+        event.strftime('%H:%M:%S')
+      );
+    });
+  </script>
 <% end %>
