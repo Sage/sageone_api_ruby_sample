@@ -25,7 +25,7 @@ bundle exec rake db:migrate
 Start a local Rails server:
 
 ```
-bundle exec rails -s
+bundle exec rails s
 ```
 
 You can now access the [home page](http://localhost:3000/), sign up, authorize and make an API call.
