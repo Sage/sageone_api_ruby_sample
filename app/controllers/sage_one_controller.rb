@@ -39,7 +39,7 @@ class SageOneController < ApplicationController
     signing_secret = sageone_config['sageone']['signing_secret']
     token = current_user.access_token
 
-    if (put_or_post? request_method)
+    if put_or_post?(request_method)
       request_body_params = params["#{request_method}_data"]
       params_as_json = JSON.parse(request_body_params)
     else
@@ -59,7 +59,7 @@ class SageOneController < ApplicationController
 
     begin
       api_call = RestClient.method(request_method)
-      response = (put_or_post? request_method) ? api_call.call(url, payload, header) : api_call.call(url, header)
+      response = put_or_post?(request_method) ? api_call.call(url, payload, header) : api_call.call(url, header)
       @response = JSON.parse(response.to_s)
     rescue => e
       puts e.response.to_str
