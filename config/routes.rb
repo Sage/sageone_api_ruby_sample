@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   get    'sageone_auth'  => 'sage_one#auth'
   get    'sageone_data'  => 'sage_one#data'
   get    'auth/callback' => 'sage_one#exchange_code_for_token'
-  get    'get_data'      => 'sage_one#get_data'
+  get    'call_api'      => 'sage_one#call_api'
+  post   'call_api'      => 'sage_one#call_api'
   get    'renew_token'   => 'sage_one#renew_token'
   resources :users
 

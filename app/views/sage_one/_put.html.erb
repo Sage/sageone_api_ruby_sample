@@ -1,0 +1,10 @@
+<h3>PUT request</h3>
+<form action="call_api" method="post" class="endpoint_form">
+  <label for="put_endpoint">Endpoint</label>
+  <input id="put_endpoint" name="put_endpoint" type="text" value="" class="form-control" required="true">
+  <p>Example: accounts/v1/contacts/:id</p>
+  <label for="put_data">PUT data</label>
+  <textarea id="put_data" name="put_data"></textarea>
+  <p>Example: {"contact[contact_type_id]":"1", "contact[name]": "Joe Bloggs"}</p>
+  <%= button_to "PUT", { :controller => "sage_one", :action => "call_api"}, {:class => "btn btn-primary"} %>
+</form>
