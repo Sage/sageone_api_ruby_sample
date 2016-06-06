@@ -34,8 +34,9 @@ class SageOneController < ApplicationController
 
   def call_api
     request_method = params.keys[0].split('_')[0]
+    base_endpoint = sageone_config['sageone']['base_endpoint']
     endpoint = params["#{request_method}_endpoint"]
-    url = "https://api.sageone.com/#{endpoint}"
+    url = "#{base_endpoint}/#{endpoint}"
     signing_secret = sageone_config['sageone']['signing_secret']
     token = current_user.access_token
 
@@ -90,7 +91,6 @@ class SageOneController < ApplicationController
   def get_token(body_params)
     response = RestClient.post sageone_config['sageone']['token_endpoint'], URI.encode_www_form(body_params)
     parsed = JSON.parse(response.to_str)
-
     current_user.update_attributes(:access_token => parsed["access_token"],
                                    :token_issued => Time.now,
                                    :refresh_token => parsed["refresh_token"])
