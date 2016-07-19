@@ -40,23 +40,21 @@ class SageOneController < ApplicationController
     signing_secret = sageone_config['sageone']['signing_secret']
     token = current_user.access_token
 
-    if put_or_post?(request_method)
-      request_body_params = params["#{request_method}_data"]
-      params_as_json = JSON.parse(request_body_params)
-    else
-      params_as_json = {}
-    end
+    body_params = put_or_post?(request_method) ? JSON.parse(params["#{request_method}_data"]).sort.to_h : {}
 
     @signer = SageoneApiSigner.new({
-      request_method: request_method,
-      url: url,
-      body_params: params_as_json,
-      signing_secret: signing_secret,
-      access_token: token
+        request_method: request_method,
+        url: url,
+        body: body_params.to_query,
+        body_params: body_params,
+        signing_secret: signing_secret,
+        access_token: token
     })
 
-    payload = URI.encode_www_form(params_as_json)
+    payload = URI.encode_www_form(body_params)
     header = @signer.request_headers("Sage One Sample Application")
+
+    header["ocp-apim-subscription-key"] = sageone_config['sageone']['apim_subscription_key']
 
     begin
       api_call = RestClient.method(request_method)
