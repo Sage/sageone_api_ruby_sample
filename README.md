@@ -1,5 +1,8 @@
 # Sage One Ruby API Sample application
 
+### FOR changes required for v3 please refer to the [v3 branch](https://github.com/Sage/sageone_api_java_sample/tree/v3)
+##### NOTE: v3 is currently under development. It is only available in Canada [Beta]
+
 Sample application that integrates with Sage One Accounting via the Sage One API.
 
 Authentication with Sage One is handled in the [Sage One Controller](app/controllers/sage_one_controller.rb).
