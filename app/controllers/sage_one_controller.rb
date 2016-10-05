@@ -10,6 +10,7 @@ class SageOneController < ApplicationController
 
   # POST request to exchange authorisation code for access token
   def exchange_code_for_token
+    @country = params[:country].downcase
     body_params = token_request_body
     body_params << ["code", params[:code]]
     body_params << ["grant_type", "authorization_code"]
@@ -34,11 +35,12 @@ class SageOneController < ApplicationController
 
   def call_api
     request_method = params.keys[0].split('_')[0]
-    base_endpoint = sageone_config['sageone']['base_endpoint']
+    base_endpoint = sageone_config['sageone']['base_endpoint'][current_user.api_country_code]
     endpoint = params["#{request_method}_endpoint"]
     url = "#{base_endpoint}/#{endpoint}"
     signing_secret = sageone_config['sageone']['signing_secret']
     token = current_user.access_token
+    guid = current_user.resource_owner_id
 
     body_params = put_or_post?(request_method) ? JSON.parse(params["#{request_method}_data"]).sort.to_h : {}
 
@@ -48,13 +50,15 @@ class SageOneController < ApplicationController
         body: body_params.to_query,
         body_params: body_params,
         signing_secret: signing_secret,
-        access_token: token
+        access_token: token,
+        business_guid: guid
     })
 
     payload = URI.encode_www_form(body_params)
     header = @signer.request_headers("Sage One Sample Application")
 
     header["ocp-apim-subscription-key"] = sageone_config['sageone']['apim_subscription_key']
+    header["X-Site"] = guid
 
     begin
       api_call = RestClient.method(request_method)
@@ -87,11 +91,13 @@ class SageOneController < ApplicationController
   end
 
   def get_token(body_params)
-    response = RestClient.post sageone_config['sageone']['token_endpoint'], URI.encode_www_form(body_params)
+    response = RestClient.post sageone_config['sageone']['token_endpoint'][@country], URI.encode_www_form(body_params)
     parsed = JSON.parse(response.to_str)
     current_user.update_attributes(:access_token => parsed["access_token"],
                                    :token_issued => Time.now,
-                                   :refresh_token => parsed["refresh_token"])
+                                   :refresh_token => parsed["refresh_token"],
+                                   :resource_owner_id => parsed["resource_owner_id"],
+                                   :api_country_code => @country)
   end
 
   def put_or_post?(method)

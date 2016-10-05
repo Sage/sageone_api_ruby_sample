@@ -4,6 +4,14 @@ sageone:
   signing_secret: 'YOUR_SIGNING_SECRET'
   apim_subscription_key: 'YOUR_APIM_SUBSCRIPTION_KEY'
   callback_url: 'YOUR_CALLBACK_URL'
-  auth_endpoint: 'http://mysageone.ca.sageone.com/oauth2/auth'
-  token_endpoint: 'http://mysageone.ca.sageone.com/oauth2/token'
-  base_endpoint: 'https://api.columbus.sage.com/global/sageone'
+  auth_endpoint: 'https://www.sageone.com/oauth2/auth'
+  token_endpoint:
+    ca: 'https://mysageone.ca.sageone.com/oauth2/token'
+    gb: 'https://app.sageone.com/oauth2/token'
+    ie: 'https://app.sageone.com/oauth2/token'
+    us: 'https://mysageone.na.sageone.com/oauth2/token'
+  base_endpoint:
+    ca: 'https://api.columbus.sage.com/ca/sageone'
+    gb: 'https://api.columbus.sage.com/uki/sageone'
+    ie: 'https://api.columbus.sage.com/uki/sageone'
+    us: 'https://api.columbus.sage.com/us/sageone'
