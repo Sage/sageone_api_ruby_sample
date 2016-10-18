@@ -10,7 +10,7 @@ class SageOneController < ApplicationController
 
   # POST request to exchange authorisation code for access token
   def exchange_code_for_token
-    @country = params[:country].downcase
+    current_user.update_attributes(:api_country_code => params[:country].downcase)
     body_params = token_request_body
     body_params << ["code", params[:code]]
     body_params << ["grant_type", "authorization_code"]
@@ -42,19 +42,19 @@ class SageOneController < ApplicationController
     token = current_user.access_token
     guid = current_user.resource_owner_id
 
-    body_params = put_or_post?(request_method) ? JSON.parse(params["#{request_method}_data"]).sort.to_h : {}
+    body_params = put_or_post?(request_method) ? params["#{request_method}_data"] : nil
 
     @signer = SageoneApiSigner.new({
         request_method: request_method,
         url: url,
-        body: body_params.to_query,
+        body: body_params,
         body_params: body_params,
         signing_secret: signing_secret,
         access_token: token,
         business_guid: guid
     })
 
-    payload = URI.encode_www_form(body_params)
+    payload = body_params
     header = @signer.request_headers("Sage One Sample Application")
 
     header["ocp-apim-subscription-key"] = sageone_config['sageone']['apim_subscription_key']
@@ -63,7 +63,7 @@ class SageOneController < ApplicationController
     begin
       api_call = RestClient.method(request_method)
       response = put_or_post?(request_method) ? api_call.call(url, payload, header) : api_call.call(url, header)
-      @response = JSON.parse(response.to_s)
+      request_method == "delete" ? @response = response : @response = JSON.parse(response.to_s)
     rescue => e
       puts e.response.to_str
       @error = JSON.parse(e.response.to_s)
@@ -91,13 +91,12 @@ class SageOneController < ApplicationController
   end
 
   def get_token(body_params)
-    response = RestClient.post sageone_config['sageone']['token_endpoint'][@country], URI.encode_www_form(body_params)
+    response = RestClient.post sageone_config['sageone']['token_endpoint'][current_user.api_country_code], URI.encode_www_form(body_params)
     parsed = JSON.parse(response.to_str)
     current_user.update_attributes(:access_token => parsed["access_token"],
                                    :token_issued => Time.now,
                                    :refresh_token => parsed["refresh_token"],
-                                   :resource_owner_id => parsed["resource_owner_id"],
-                                   :api_country_code => @country)
+                                   :resource_owner_id => parsed["resource_owner_id"])
   end
 
   def put_or_post?(method)
