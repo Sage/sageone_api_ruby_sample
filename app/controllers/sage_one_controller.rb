@@ -42,11 +42,7 @@ class SageOneController < ApplicationController
     token = current_user.access_token
     guid = current_user.resource_owner_id
 
-    # if url.includes? sageone_config['sageone']['token_endpoint']
-    #   body_params = put_or_post?(request_method) ? JSON.parse(params["#{request_method}_data"]).sort.to_h : {}
-    # else
-      body_params = put_or_post?(request_method) ? params["#{request_method}_data"] : nil
-    # end
+    body_params = put_or_post?(request_method) ? params["#{request_method}_data"] : nil
 
     @signer = SageoneApiSigner.new({
         request_method: request_method,
