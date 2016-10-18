@@ -7,6 +7,6 @@
 </pre>
 <% else %>
 <pre>
-<%= JSON.pretty_generate(@response) %>
+<%= @response == "" ? @response : JSON.pretty_generate(@response) %>
 </pre>
 <% end %>
