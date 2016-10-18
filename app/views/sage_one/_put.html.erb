@@ -6,11 +6,9 @@
   <label for="put_data">PUT data</label>
   <textarea id="put_data" name="put_data"></textarea>
   <p>Example:
-    {
-      "contact": {
-        "credit_days": "77"
-      }
-    }
+    { "contact": { "credit_days": "77", "name": "Pete", "contact_type_ids": [
+      "CUSTOMER"
+    ] } }
   </p>
   <%= button_to "PUT", { :controller => "sage_one", :action => "call_api"}, {:class => "btn btn-primary"} %>
 </form>
