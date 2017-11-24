@@ -2,6 +2,8 @@
 
 Sample application that integrates with Sage One Accounting via the Sage One API.
 
+##### Note: Request signing and noncing (the X-Signature and X-Nonce headers) is no longer checked in v3. The related code will soon be removed from this repo.
+
 Authentication with Sage One is handled in the [Sage One Controller](app/controllers/sage_one_controller.rb).
 
 We use the [sageone_api_signer](https://github.com/Sage/sageone_api_signer) gem to sign our API requests.
