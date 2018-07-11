@@ -8,15 +8,14 @@ Sample application that integrates with Sage Business Cloud Accounting via the S
 
 Authentication with Sage is handled in the [Controller](app/controllers/sage_one_controller.rb).
 
-We use the [sageone_api_signer](https://github.com/Sage/sageone_api_signer) gem to sign our API requests.
-
 ## Run the app locally
 
 Clone the repo:
 
 `git clone git@github.com:Sage/sageone_api_ruby_sample.git`
 
-Update the [config/sageone.yml](config/sageone.yml) file with your application's `client_id`, `client_secret`, `signing_secret` and `callback_url`.
+Update the [config/sageone.yml](config/sageone.yml) file with your application's `client_id`, `client_secret` and
+`apim_subscription_key`.
 
 Switch to the project directory, bundle and migrate the db:
 

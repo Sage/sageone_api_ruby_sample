@@ -2,6 +2,6 @@
 <form action="call_api" method="post" class="endpoint_form">
   <label for="delete_endpoint">Endpoint</label>
   <input id="delete_endpoint" name="delete_endpoint" type="text" value="" class="form-control" required="true">
-  <p>Example: accounts/v1/contacts/:id</p>
+  <p>Example: accounts/v3/contacts/:id</p>
   <%= button_to "DELETE", { :controller => "sage_one", :action => "call_api"}, {:class => "btn btn-primary"} %>
 </form>
