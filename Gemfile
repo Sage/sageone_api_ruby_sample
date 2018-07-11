@@ -13,7 +13,6 @@ gem 'turbolinks',                '2.3.0'
 gem 'jbuilder',                  '2.2.3'
 gem 'sdoc',                      '0.4.0', group: :doc
 gem 'rest-client'
-gem 'sageone_api_signer', git: 'git@github.com:Sage/sageone_api_signer.git', ref: '55d33ecc4651efa6e6a44aee9e283c271090670f'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'
