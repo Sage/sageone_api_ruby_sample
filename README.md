@@ -1,9 +1,5 @@
 # Sage Business Cloud Ruby API Sample application
 
-### FOR changes required for v3 please refer to the [v3 branch](https://github.com/Sage/sageone_api_ruby_sample/tree/v3)
-
-##### Note: Request signing and noncing (the X-Signature and X-Nonce headers) is no longer checked in v3. The related code will soon be removed from this repo.
-
 Sample application that integrates with Sage Business Cloud Accounting via the Sage API.
 
 Authentication with Sage is handled in the [Controller](app/controllers/sage_one_controller.rb).
