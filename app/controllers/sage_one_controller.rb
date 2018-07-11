@@ -38,27 +38,20 @@ class SageOneController < ApplicationController
     base_endpoint = sageone_config['sageone']['base_endpoint'][current_user.api_country_code]
     endpoint = params["#{request_method}_endpoint"]
     url = "#{base_endpoint}/#{endpoint}"
-    signing_secret = sageone_config['sageone']['signing_secret']
     token = current_user.access_token
     guid = current_user.resource_owner_id
 
     body_params = put_or_post?(request_method) ? params["#{request_method}_data"] : nil
 
-    @signer = SageoneApiSigner.new({
-        request_method: request_method,
-        url: url,
-        body: body_params,
-        body_params: body_params,
-        signing_secret: signing_secret,
-        access_token: token,
-        business_guid: guid
-    })
-
+    header = {
+      Authorization: "Bearer #{token}",
+      Accept: '*/*',
+      'Content-Type': 'application/json',
+      'ocp-apim-subscription-key': sageone_config['sageone']['apim_subscription_key'],
+      'X-Site': guid,
+      'User-Agent': 'Sage One Sample Application'
+    }
     payload = body_params
-    header = @signer.request_headers("Sage One Sample Application")
-
-    header["ocp-apim-subscription-key"] = sageone_config['sageone']['apim_subscription_key']
-    header["X-Site"] = guid
 
     begin
       api_call = RestClient.method(request_method)
