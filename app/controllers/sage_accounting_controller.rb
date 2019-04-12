@@ -1,9 +1,9 @@
 require 'rest_client'
 require 'uri'
 
-class SageOneController < ApplicationController
+class SageAccountingController < ApplicationController
 
-  # redirect to the Sage One authorisation server with the required query params
+  # redirect to the Sage Accounting authorisation server with the required query params
   def auth
     redirect_to auth_url
   end
@@ -14,10 +14,10 @@ class SageOneController < ApplicationController
     body_params = token_request_body
     body_params << ["code", params[:code]]
     body_params << ["grant_type", "authorization_code"]
-    body_params << ["redirect_uri", sageone_config['sageone']['callback_url']]
+    body_params << ["redirect_uri", sage_accounting_config['sage_accounting']['callback_url']]
 
     get_token(body_params)
-    redirect_to sageone_data_path
+    redirect_to sage_accounting_data_path
   end
 
   # use the refresh token to renew the access token
@@ -27,7 +27,7 @@ class SageOneController < ApplicationController
     body_params << ["grant_type", "refresh_token"]
 
     get_token(body_params)
-    redirect_to sageone_data_path
+    redirect_to sage_accounting_data_path
   end
 
   def data
@@ -35,7 +35,7 @@ class SageOneController < ApplicationController
 
   def call_api
     request_method = params.keys[0].split('_')[0]
-    base_endpoint = sageone_config['sageone']['base_endpoint']
+    base_endpoint = sage_accounting_config['sage_accounting']['base_endpoint']
     endpoint = params["#{request_method}_endpoint"]
     url = "#{base_endpoint}/#{endpoint}"
     token = current_user.access_token
@@ -48,7 +48,7 @@ class SageOneController < ApplicationController
       Accept: '*/*',
       'Content-Type': 'application/json',
       'X-Business': guid,
-      'User-Agent': 'Sage One API Ruby Sample Application'
+      'User-Agent': 'Sage Accounting API Ruby Sample Application'
     }
     payload = body_params
 
@@ -66,25 +66,25 @@ class SageOneController < ApplicationController
   private
 
   def auth_url
-    @client_id = sageone_config['sageone']['client_id']
-    @callback_url = sageone_config['sageone']['callback_url']
-    @auth_endpoint = sageone_config['sageone']['auth_endpoint']
+    @client_id = sage_accounting_config['sage_accounting']['client_id']
+    @callback_url = sage_accounting_config['sage_accounting']['callback_url']
+    @auth_endpoint = sage_accounting_config['sage_accounting']['auth_endpoint']
     "#{@auth_endpoint}?filter=apiv3.1&response_type=code&client_id=#{@client_id}&redirect_uri=#{@callback_url}&scope=full_access"
   end
 
-  def sageone_config
-    YAML.load_file(File.expand_path('../../../config/sageone.yml', __FILE__))
+  def sage_accounting_config
+    YAML.load_file(File.expand_path('../../../config/sage_accounting.yml', __FILE__))
   end
 
   def token_request_body
     body_params = []
-    body_params << ["client_id", sageone_config['sageone']['client_id']]
-    body_params << ["client_secret", sageone_config['sageone']['client_secret']]
+    body_params << ["client_id", sage_accounting_config['sage_accounting']['client_id']]
+    body_params << ["client_secret", sage_accounting_config['sage_accounting']['client_secret']]
     body_params
   end
 
   def get_token(body_params)
-    response = RestClient.post(sageone_config['sageone']['token_endpoint'], URI.encode_www_form(body_params))
+    response = RestClient.post(sage_accounting_config['sage_accounting']['token_endpoint'], URI.encode_www_form(body_params))
     parsed = JSON.parse(response.to_str)
     current_user.update_attributes(:access_token => parsed["access_token"],
                                    :token_issued => Time.now,

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SageOneControllerTest < ActionController::TestCase
+class SageAccountingControllerTest < ActionController::TestCase
   test "should get auth" do
     get :auth
     assert_response :success

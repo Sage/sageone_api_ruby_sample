@@ -1,8 +1,8 @@
-# Sage Business Cloud Ruby API Sample application
+# Sage Business Cloud Accounting Ruby API Sample application
 
 Sample application that integrates with Sage Business Cloud Accounting via the Sage API.
 
-Authentication with Sage is handled in the [Controller](app/controllers/sage_one_controller.rb).
+Authentication with Sage is handled in the [Controller](app/controllers/sage_accounting_controller.rb).
 
 ## Run the app locally
 
@@ -10,7 +10,7 @@ Clone the repo:
 
 `git clone git@github.com:Sage/sageone_api_ruby_sample.git`
 
-Update the [config/sageone.yml](config/sageone.yml) file with your application's `client_id`, `client_secret`.
+Update the [config/sage_accounting.yml](config/sage_accounting.yml) file with your application's `client_id`, `client_secret`.
 
 Switch to the project directory, bundle and migrate the db:
 
@@ -31,11 +31,11 @@ You can now access the [home page](http://localhost:3000/), sign up, authorize a
 ## Run the app in Docker
 
 ```
-docker build --rm -t sageone/api_ruby_sample -f Dockerfile .
+docker build --rm -t sage_accounting/api_ruby_sample -f Dockerfile .
 ```
 
 ```
-docker run -it --publish=3000:3000/tcp sageone/api_ruby_sample
+docker run -it --publish=3000:3000/tcp sage_accounting/api_ruby_sample
 ```
 
 ## License

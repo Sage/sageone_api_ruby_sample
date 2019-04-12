@@ -1,11 +1,11 @@
 <div class="center well">
-  <h1>Sage One API Sample Application (Ruby on Rails)</h1>
-  <h2>This sample application integrates with the Sage One API.</h2>
+  <h1>Sage Accounting API Sample Application (Ruby on Rails)</h1>
+  <h2>This sample application integrates with the Sage Accounting API.</h2>
   <% if logged_in? %>
     <% if !authorized? %>
-      Before you can make any API calls, you need to <%= link_to "authorize", sageone_auth_path %>.
+      Before you can make any API calls, you need to <%= link_to "authorize", sage_accounting_auth_path %>.
     <% else %>
-    You're all set! <%= link_to "Go make some calls", sageone_data_path %>.
+    You're all set! <%= link_to "Go make some calls", sage_accounting_data_path %>.
     <% end %>
   <% else %>
   <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
