@@ -35,7 +35,7 @@ class SageOneController < ApplicationController
 
   def call_api
     request_method = params.keys[0].split('_')[0]
-    base_endpoint = sageone_config['sageone']['base_endpoint'][current_user.api_country_code]
+    base_endpoint = sageone_config['sageone']['base_endpoint']
     endpoint = params["#{request_method}_endpoint"]
     url = "#{base_endpoint}/#{endpoint}"
     token = current_user.access_token
@@ -47,14 +47,14 @@ class SageOneController < ApplicationController
       Authorization: "Bearer #{token}",
       Accept: '*/*',
       'Content-Type': 'application/json',
-      'ocp-apim-subscription-key': sageone_config['sageone']['apim_subscription_key'],
-      'X-Site': guid,
-      'User-Agent': 'Sage One Sample Application'
+      'X-Business': guid,
+      'User-Agent': 'Sage One API Ruby Sample Application'
     }
     payload = body_params
 
     begin
       api_call = RestClient.method(request_method)
+      Rails.logger.info("#{request_method.upcase} #{url}")
       response = put_or_post?(request_method) ? api_call.call(url, payload, header) : api_call.call(url, header)
       request_method == "delete" ? @response = response : @response = JSON.parse(response.to_s)
     rescue => e
@@ -69,7 +69,7 @@ class SageOneController < ApplicationController
     @client_id = sageone_config['sageone']['client_id']
     @callback_url = sageone_config['sageone']['callback_url']
     @auth_endpoint = sageone_config['sageone']['auth_endpoint']
-    "#{@auth_endpoint}?response_type=code&client_id=#{@client_id}&redirect_uri=#{@callback_url}&scope=full_access"
+    "#{@auth_endpoint}?filter=apiv3.1&response_type=code&client_id=#{@client_id}&redirect_uri=#{@callback_url}&scope=full_access"
   end
 
   def sageone_config
@@ -84,7 +84,7 @@ class SageOneController < ApplicationController
   end
 
   def get_token(body_params)
-    response = RestClient.post sageone_config['sageone']['token_endpoint'][current_user.api_country_code], URI.encode_www_form(body_params)
+    response = RestClient.post(sageone_config['sageone']['token_endpoint'], URI.encode_www_form(body_params))
     parsed = JSON.parse(response.to_str)
     current_user.update_attributes(:access_token => parsed["access_token"],
                                    :token_issued => Time.now,
