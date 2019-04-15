@@ -1,18 +1,18 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-    <%= link_to "Sage One API Sample App", root_path, id: "logo" %>
+    <%= link_to "Sage Accounting API Sample App", root_path, id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "View source on github", "https://github.com/Sage/sageone_api_ruby_sample" %></li>
         <li><%= link_to "Home", root_path %></li>
         <% if logged_in? %>
-          <li><%= link_to "Sage One", sageone_data_path %></li>
+          <li><%= link_to "Sage Accounting", sage_accounting_data_path %></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               Account <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Authorize", sageone_auth_path %></li>
+              <li><%= link_to "Authorize", sage_accounting_auth_path %></li>
               <li><%= link_to "Profile", edit_user_path(current_user) %></li>
               <li class="divider"></li>
               <li>

@@ -2,7 +2,7 @@
 <form action="call_api" method="post" class="endpoint_form">
   <label for="put_endpoint">Endpoint</label>
   <input id="put_endpoint" name="put_endpoint" type="text" value="" class="form-control" required="true">
-  <p>Example: accounts/v3/contacts/:id</p>
+  <p>Example: contacts/:id</p>
   <label for="put_data">PUT data</label>
   <textarea id="put_data" name="put_data"></textarea>
   <p>Example:
@@ -10,5 +10,5 @@
       "CUSTOMER"
     ] } }
   </p>
-  <%= button_to "PUT", { :controller => "sage_one", :action => "call_api"}, {:class => "btn btn-primary"} %>
+  <%= button_to "PUT", { :controller => "sage_accounting", :action => "call_api"}, {:class => "btn btn-primary"} %>
 </form>
