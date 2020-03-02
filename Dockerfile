@@ -1,4 +1,4 @@
-FROM ruby:2.4.6-alpine3.9
+FROM ruby:2.4.9-alpine3.9
 
 # Install packages necessary to build gems with C extensions
 RUN apk add --no-cache \
