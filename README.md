@@ -1,4 +1,10 @@
-# Sage Business Cloud Accounting Ruby API Sample application
+# Sage Business Cloud Accounting Ruby API Sample application (deprecated)
+
+**Please note that this Sample Application is not updated anymore.** To get an overview of all current sample applications
+for the Sage Accounting API, please visit https://developer.sage.com/api/accounting/guides/sample_apps/.
+
+<details><summary>Application Setup</summary>
+<p>
 
 Sample application that integrates with Sage Business Cloud Accounting via the Sage API.
 
@@ -37,10 +43,12 @@ docker build --rm -t sage_accounting/api_ruby_sample -f Dockerfile .
 ```
 docker run -it --publish=3000:3000/tcp sage_accounting/api_ruby_sample
 ```
+</p>
+</details>
 
 ## License
 
 This sample application is available as open source under the terms of the
 [MIT licence](LICENSE).
 
-Copyright (c) 2019 Sage Group Plc. All rights reserved.
+Copyright (c) 2020 Sage Group Plc. All rights reserved.
